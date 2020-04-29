@@ -41,7 +41,7 @@ class TransactionsRepository extends Repository<Transaction> {
   public async findAll(): Promise<Transaction[]> {
     const transactions = await this.createQueryBuilder('t')
       .innerJoinAndSelect('t.category', 'c', 'c.id = t.category_id')
-      .select(['t.id', 't.title', 't.value', 't.type', 'c.id', 'c.title'])
+      // .select(['t.id', 't.title', 't.value', 't.type', 'c.id', 'c.title'])
       .getMany();
 
     return transactions;
