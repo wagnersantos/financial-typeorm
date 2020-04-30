@@ -22,17 +22,13 @@ class ImportTransactionsService {
       checkType: true,
     }).fromFile(csvFilePath);
 
-    // console.log(parsedTransactions);
-    const transactions: Transaction[] = await Promise.all(
-      parsedTransactions.map(async transaction => {
-        const response = await createTransaction.execute({
-          title: transaction.title,
-          type: transaction.type,
-          value: transaction.value,
-          category: transaction.category.toString(),
-        });
+    const transactions: Transaction[] = [];
 
-        return response;
+    await Promise.all(
+      parsedTransactions.map(async transaction => {
+        const response = await createTransaction.execute(transaction);
+
+        transactions.push(response);
       }),
     );
 
